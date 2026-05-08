@@ -1,6 +1,8 @@
 package kz.bagdat.ticket_booking_api.auth.controller;
 
 import jakarta.validation.Valid;
+import kz.bagdat.ticket_booking_api.auth.dto.AuthMessageResponse;
+import kz.bagdat.ticket_booking_api.auth.dto.LoginRequest;
 import kz.bagdat.ticket_booking_api.auth.dto.RegisterRequest;
 import kz.bagdat.ticket_booking_api.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +17,14 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public String register(@Valid @RequestBody RegisterRequest request){
+    public AuthMessageResponse register(@Valid @RequestBody RegisterRequest request) {
         authService.register(request);
-        return "User registered successfully";
+        return new AuthMessageResponse("User registered successfully");
+    }
+
+    @PostMapping("/login")
+    public AuthMessageResponse login(@Valid @RequestBody LoginRequest request) {
+        authService.login(request);
+        return new AuthMessageResponse("Login successful");
     }
 }
