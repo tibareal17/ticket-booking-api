@@ -1,10 +1,12 @@
 package kz.bagdat.ticket_booking_api.auth.service;
 
+import kz.bagdat.ticket_booking_api.auth.dto.AuthResponse;
 import kz.bagdat.ticket_booking_api.auth.dto.LoginRequest;
 import kz.bagdat.ticket_booking_api.auth.dto.RegisterRequest;
 import kz.bagdat.ticket_booking_api.common.exception.InvalidCredentialsException;
 import kz.bagdat.ticket_booking_api.common.exception.RoleNotFoundException;
 import kz.bagdat.ticket_booking_api.common.exception.UserAlreadyExistsException;
+import kz.bagdat.ticket_booking_api.common.security.JwtService;
 import kz.bagdat.ticket_booking_api.user.entity.RoleEntity;
 import kz.bagdat.ticket_booking_api.user.entity.UserEntity;
 import kz.bagdat.ticket_booking_api.user.repository.RoleRepository;
@@ -22,6 +24,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Transactional
     public void register(RegisterRequest request) {
@@ -45,9 +48,8 @@ public class AuthService {
         userRepository.save(user);
     }
 
-
     @Transactional(readOnly = true)
-    public void login(LoginRequest request) {
+    public AuthResponse login(LoginRequest request) {
         String email = request.getEmail().trim().toLowerCase();
 
         UserEntity user = userRepository.findByEmail(email)
@@ -61,5 +63,9 @@ public class AuthService {
         if (!passwordMatches) {
             throw new InvalidCredentialsException("Email or password is incorrect");
         }
+
+        String accessToken = jwtService.generateAccessToken(user);
+
+        return new AuthResponse(accessToken, "Bearer");
     }
 }
