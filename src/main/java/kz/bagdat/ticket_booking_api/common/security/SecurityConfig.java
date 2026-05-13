@@ -29,6 +29,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/auth/**"
                         ).permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/me").authenticated()
                         .anyRequest().permitAll()
                 )

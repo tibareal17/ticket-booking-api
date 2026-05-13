@@ -65,6 +65,51 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
+    // for City
+    @ExceptionHandler(CityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCityNotFound(CityNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "CITY_NOT_FOUND",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(CityAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleCityAlreadyExists(CityAlreadyExistsException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "CITY_ALREADY_EXISTS",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    // for Category
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCategoryNotFound(CategoryNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "CATEGORY_NOT_FOUND",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleCategoryAlreadyExists(CategoryAlreadyExistsException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "CATEGORY_ALREADY_EXISTS",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpectedException(Exception ex) {
@@ -72,7 +117,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse response = new ErrorResponse(
                 "INTERNAL_SERVER_ERROR",
-                "Unexpected server error",
+                ex.getMessage(),
                 LocalDateTime.now()
         );
 
