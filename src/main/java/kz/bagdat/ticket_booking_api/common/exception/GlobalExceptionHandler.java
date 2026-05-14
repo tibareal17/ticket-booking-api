@@ -111,6 +111,100 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
+    // for Venue
+    @ExceptionHandler(VenueNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleVenueNotFound(VenueNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "VENUE_NOT_FOUND",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(VenueAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleVenueAlreadyExists(VenueAlreadyExistsException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "VENUE_ALREADY_EXISTS",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    //for Hall
+    @ExceptionHandler(HallNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleHallNotFound(HallNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "HALL_NOT_FOUND",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(HallAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleHallAlreadyExists(HallAlreadyExistsException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "HALL_ALREADY_EXISTS",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    // for seats
+    @ExceptionHandler(SeatNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSeatNotFound(SeatNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "SEAT_NOT_FOUND",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(SeatAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleSeatAlreadyExists(SeatAlreadyExistsException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "SEAT_ALREADY_EXISTS",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    // for Events
+
+    @ExceptionHandler(EventNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEventNotFound(EventNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "EVENT_NOT_FOUND",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(EventAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleEventAlreadyExists(EventAlreadyExistsException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "EVENT_ALREADY_EXISTS",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    // GENERAL
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpectedException(Exception ex) {
         log.error("Unexpected server error", ex);
