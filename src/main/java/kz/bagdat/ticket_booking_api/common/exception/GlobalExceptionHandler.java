@@ -204,6 +204,30 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
+    // for Session
+
+    @ExceptionHandler(SessionNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSessionNotFound(SessionNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "SESSION_NOT_FOUND",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(InvalidSessionTimeException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidSessionTime(InvalidSessionTimeException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "INVALID_SESSION_TIME",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
     // GENERAL
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpectedException(Exception ex) {
