@@ -228,6 +228,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    @ExceptionHandler(InvalidSessionStatusException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidSessionStatus(InvalidSessionStatusException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "INVALID_SESSION_STATUS",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
     // GENERAL
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpectedException(Exception ex) {
