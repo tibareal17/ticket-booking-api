@@ -5,6 +5,7 @@ import kz.bagdat.ticket_booking_api.category.repository.CategoryRepository;
 import kz.bagdat.ticket_booking_api.common.exception.CategoryNotFoundException;
 import kz.bagdat.ticket_booking_api.common.exception.EventAlreadyExistsException;
 import kz.bagdat.ticket_booking_api.common.exception.EventNotFoundException;
+import kz.bagdat.ticket_booking_api.common.exception.InvalidEventStatusException;
 import kz.bagdat.ticket_booking_api.event.dto.CreateEventRequest;
 import kz.bagdat.ticket_booking_api.event.dto.EventResponse;
 import kz.bagdat.ticket_booking_api.event.dto.UpdateEventRequest;
@@ -88,7 +89,7 @@ public class EventService {
             throw new EventAlreadyExistsException("Event with this title already exists");
         }
 
-        EventStatus newStatus = EventStatus.valueOf(request.status().trim().toUpperCase());
+        EventStatus newStatus = parseStatus(request.status());
 
         event.setCategory(category);
         event.setTitle(newTitle);
@@ -115,5 +116,13 @@ public class EventService {
                 event.getPosterUrl(),
                 event.getStatus().name()
         );
+    }
+
+    private EventStatus parseStatus(String status) {
+        try {
+            return EventStatus.valueOf(status.trim().toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidEventStatusException("Invalid event status");
+        }
     }
 }

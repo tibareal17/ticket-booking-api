@@ -204,6 +204,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
+    @ExceptionHandler(InvalidEventStatusException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidEventStatus(InvalidEventStatusException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "INVALID_EVENT_STATUS",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
     // for Session
 
     @ExceptionHandler(SessionNotFoundException.class)
@@ -246,7 +257,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse response = new ErrorResponse(
                 "INTERNAL_SERVER_ERROR",
-                ex.getMessage(),
+                "Unexpected server error",
                 LocalDateTime.now()
         );
 
